@@ -1,0 +1,54 @@
+
+<div class="quantity-picker">
+    <div style="flex-grow: 1;"></div> <!-- Spacer -->
+    <button class="btn btn-primary" style="border-top-right-radius:0px; border-bottom-right-radius: 0px;" @onclick="Decrease">-</button>
+    <input type="number" class="form-control" style="border-radius:0px;" @bind="CurrentValue" min="@Minimum" max="@Maximum" />
+    <button class="btn btn-primary" style="border-top-left-radius:0px; border-bottom-left-radius: 0px;" @onclick="Increase">+</button>
+</div>
+
+
+
+<style>
+    .quantity-picker {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end; /* Align items to the end of the container */
+    }
+
+        .quantity-picker input[type=number] {
+            flex: 1;
+            text-align: center;
+        }
+</style>
+
+@code {
+    [Parameter] public object Item { get; set; }
+    [Parameter] public int CurrentValue { get; set; }
+    [Parameter] public int Minimum { get; set; } = 0;
+    [Parameter] public int Maximum { get; set; } = 9999;
+    [Parameter] public EventCallback<(object, int)> ValueChanged { get; set; }
+
+
+    private async Task Increase()
+    {
+        if (CurrentValue < Maximum)
+        {
+            CurrentValue++;
+            await NotifyValueChanged();
+        }
+    }
+
+    private async Task Decrease()
+    {
+        if (CurrentValue > Minimum)
+        {
+            CurrentValue--;
+            await NotifyValueChanged();
+        }
+    }
+
+    private async Task NotifyValueChanged()
+    {
+        await ValueChanged.InvokeAsync((Item, CurrentValue));
+    }
+}
