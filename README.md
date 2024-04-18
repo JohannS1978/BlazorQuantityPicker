@@ -8,8 +8,9 @@ Useful in tables with dynamic content etc.
 It aligns to the right of whatever container you put it in 'cos that's what I needed.
 
 You can use it like this:
-
+```
  <QuantityPicker CurrentValue="@CurrentQuantity" Item="@SomeObjectThatwillbeReturned" Minimum="1" ValueChanged="SetItemQuantity"></QuantityPicker>
+\```
 
 the SetItemQuantity method should look something like this:
 
